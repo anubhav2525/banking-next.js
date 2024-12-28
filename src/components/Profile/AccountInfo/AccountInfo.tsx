@@ -22,39 +22,53 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const FormSchema = z.object({
-  firstName: z
+  customerId: z.string().nonempty(),
+  accountNumber: z.string().nonempty().length(12, {
+    message: "Account number must be 12 digits",
+  }),
+  accountType: z.string().nonempty(),
+  accountStatus: z.string().nonempty(),
+  aadharNumber: z
     .string()
-    .nonempty()
-    .min(2, {
-      message: "First name min length is 2",
-    })
-    .max(60, {
-      message: "First name max length is 60",
+    .nonempty("Aadhar number is required to update account information")
+    .length(12, {
+      message: "Aadhar number must be 12 digits",
     }),
-  middleName: z
+  panNumber: z
     .string()
-    .min(2, { message: "Middle name min length is 2" })
-    .max(60, { message: "Middle name max length is 60" }),
-  lastName: z
-    .string()
-    .nonempty()
-    .min(2, {
-      message: "Last name min length is 2",
-    })
-    .max(60, {
-      message: "Last name max length is 60",
+    .nonempty("PAN number is required to update account information")
+    .length(10, {
+      message: "PAN number must be 10 digits",
     }),
+  ifscCode: z.string().nonempty().length(11, {
+    message: "IFSC code must be 11 digits",
+  }),
+  branchName: z.string().nonempty(),
+  bankName: z.string().nonempty(),
 });
 
 const AccountInfo = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      firstName: "",
-      middleName: "",
-      lastName: "",
+      customerId: "",
+      accountNumber: "",
+      accountType: "",
+      accountStatus: "Active",
+      aadharNumber: "",
+      panNumber: "",
+      ifscCode: "",
+      branchName: "",
+      bankName: "",
     },
   });
 
@@ -73,12 +87,12 @@ const AccountInfo = () => {
             <div>
               <FormField
                 control={form.control}
-                name="firstName"
+                name="customerId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First name</FormLabel>
+                    <FormLabel>Customer ID</FormLabel>
                     <FormControl>
-                      <Input placeholder="John" {...field} />
+                      <Input placeholder="John" {...field} disabled />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -88,12 +102,12 @@ const AccountInfo = () => {
             <div>
               <FormField
                 control={form.control}
-                name="middleName"
+                name="aadharNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Middle name</FormLabel>
+                    <FormLabel>Aadhar number</FormLabel>
                     <FormControl>
-                      <Input placeholder="John" {...field} />
+                      <Input placeholder="1234-1234-1234" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -103,18 +117,130 @@ const AccountInfo = () => {
             <div>
               <FormField
                 control={form.control}
-                name="lastName"
+                name="panNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last name</FormLabel>
+                    <FormLabel>PAN number</FormLabel>
                     <FormControl>
-                      <Input placeholder="Deo" {...field} />
+                      <Input placeholder="ABCDE1234F" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="accountNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Account number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="1234-1234-1234" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="accountType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Account Type</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select account" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Savings">Savings</SelectItem>
+                        <SelectItem value="Current">Current</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="accountStatus"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Account status</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Active">Active</SelectItem>
+                        <SelectItem value="Inactive">Inactive</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>           
+            <div>
+              <FormField
+                control={form.control}
+                name="ifscCode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>IFSC code</FormLabel>
+                    <FormControl>
+                      <Input placeholder="ABCD0123456" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="branchName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Branch name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Branch name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="bankName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Bank name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Bank name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>            
           </CardContent>
           <CardFooter className="flex justify-end w-full">
             <Button className="w-full sm:w-40" type="submit">

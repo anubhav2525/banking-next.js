@@ -71,6 +71,7 @@ const FormSchema = z.object({
     message: "Alternate contact should be 10",
   }),
   email: z.string(),
+  occupaction: z.string(),
   address: z.object({
     street: z.string().nonempty(),
     city: z.string(),
@@ -82,6 +83,7 @@ const FormSchema = z.object({
   }),
   dob: z.date(),
   gender: z.string(),
+  incomeRange: z.string(),
 });
 
 const BasicInfo = () => {
@@ -94,6 +96,7 @@ const BasicInfo = () => {
       contact: "",
       alternateContact: "",
       email: "",
+      occupaction: "",
       address: {
         street: "",
         city: "",
@@ -103,6 +106,7 @@ const BasicInfo = () => {
       },
       dob: new Date(),
       gender: "",
+      incomeRange: "",
     },
   });
 
@@ -214,7 +218,22 @@ const BasicInfo = () => {
                 )}
               />
             </div>
-            <div className="lg:col-span-2">
+            <div>
+              <FormField
+                control={form.control}
+                name="occupaction"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Occupaction</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. Software Engineer" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
               <FormField
                 control={form.control}
                 name="address.street"
@@ -376,7 +395,7 @@ const BasicInfo = () => {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a verified email to display" />
+                          <SelectValue placeholder="Select Gender" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -428,6 +447,37 @@ const BasicInfo = () => {
                         />
                       </PopoverContent>
                     </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="incomeRange"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Income Range</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Income" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="0-1L">0-1L</SelectItem>
+                        <SelectItem value="1-3L">1-3L</SelectItem>
+                        <SelectItem value="3-5L">3-5L</SelectItem>
+                        <SelectItem value="5-10L">5-10L</SelectItem>
+                        <SelectItem value="10-20L">10-20L</SelectItem>
+                        <SelectItem value="20-50L">20-50L</SelectItem>
+                        <SelectItem value="50L+">50L+</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

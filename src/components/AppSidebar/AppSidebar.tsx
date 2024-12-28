@@ -36,10 +36,10 @@ const data = {
           title: "Profile",
           url: "/profile",
           icon: <User size={18} />,
-        },
+        },     
         {
-          title: "Accounts",
-          url: "/manage-accounts",
+          title: "Loan",
+          url: "/loan",
           icon: <CreditCard size={18} />,
         },
       ],
