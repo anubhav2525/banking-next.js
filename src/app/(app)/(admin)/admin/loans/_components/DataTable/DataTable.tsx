@@ -36,13 +36,17 @@ import Link from "next/link";
 
 export type Loan = {
   id: number;
-  userId: number;
+  customerId: number;
   loanAmount: number;
   loanType: string;
   interestRate: number;
   tenureMonths: number;
   status: "pending" | "approved" | "rejected" | "disbursed";
   totalAmount: number;
+  loanDueDate?: string;
+  loanAmountApproved?: number;
+  approvedDate?: string;
+  purpose?: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -50,7 +54,7 @@ export type Loan = {
 const data: Loan[] = [
   {
     id: 1,
-    userId: 101,
+    customerId: 101,
     loanAmount: 50000,
     loanType: "Personal",
     interestRate: 12.5,
@@ -62,7 +66,7 @@ const data: Loan[] = [
   },
   {
     id: 2,
-    userId: 102,
+    customerId: 102,
     loanAmount: 200000,
     loanType: "Home",
     interestRate: 8.5,
@@ -74,7 +78,7 @@ const data: Loan[] = [
   },
   {
     id: 3,
-    userId: 103,
+    customerId: 103,
     loanAmount: 75000,
     loanType: "Car",
     interestRate: 10.0,
@@ -86,7 +90,7 @@ const data: Loan[] = [
   },
   {
     id: 4,
-    userId: 104,
+    customerId: 104,
     loanAmount: 300000,
     loanType: "Education",
     interestRate: 9.0,
@@ -98,7 +102,7 @@ const data: Loan[] = [
   },
   {
     id: 5,
-    userId: 105,
+    customerId: 105,
     loanAmount: 100000,
     loanType: "Business",
     interestRate: 11.0,
@@ -110,7 +114,7 @@ const data: Loan[] = [
   },
   {
     id: 6,
-    userId: 106,
+    customerId: 106,
     loanAmount: 60000,
     loanType: "Personal",
     interestRate: 13.0,
@@ -122,7 +126,7 @@ const data: Loan[] = [
   },
   {
     id: 7,
-    userId: 107,
+    customerId: 107,
     loanAmount: 150000,
     loanType: "Car",
     interestRate: 9.5,
@@ -134,7 +138,7 @@ const data: Loan[] = [
   },
   {
     id: 8,
-    userId: 108,
+    customerId: 108,
     loanAmount: 450000,
     loanType: "Home",
     interestRate: 7.5,
@@ -146,7 +150,7 @@ const data: Loan[] = [
   },
   {
     id: 9,
-    userId: 109,
+    customerId: 109,
     loanAmount: 50000,
     loanType: "Education",
     interestRate: 10.0,
@@ -158,7 +162,7 @@ const data: Loan[] = [
   },
   {
     id: 10,
-    userId: 110,
+    customerId: 110,
     loanAmount: 80000,
     loanType: "Business",
     interestRate: 12.0,
@@ -177,9 +181,9 @@ const columns: ColumnDef<Loan>[] = [
     cell: ({ row }) => <div>{row.getValue("id")}</div>,
   },
   // {
-  //   accessorKey: "userId",
+  //   accessorKey: "customerId",
   //   header: "User ID",
-  //   cell: ({ row }) => <div>{row.getValue("userId")}</div>,
+  //   cell: ({ row }) => <div>{row.getValue("customerId")}</div>,
   // },
   {
     accessorKey: "loanAmount",
@@ -267,14 +271,14 @@ const columns: ColumnDef<Loan>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View Loan Details</DropdownMenuItem>
+            <DropdownMenuItem>Edit Loan Details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
     },
   },
 ];
-
-const DynamicTableLoan = () => {
+const DataTable = () => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -301,7 +305,6 @@ const DynamicTableLoan = () => {
       rowSelection,
     },
   });
-
   return (
     <div className="w-full">
       {/* head form */}
@@ -331,7 +334,7 @@ const DynamicTableLoan = () => {
       </div>
       {/* data form */}
       <div className="rounded-md border">
-        <Table>
+        <Table className="w-full overflow-auto">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -417,4 +420,4 @@ const DynamicTableLoan = () => {
   );
 };
 
-export default DynamicTableLoan;
+export default DataTable;

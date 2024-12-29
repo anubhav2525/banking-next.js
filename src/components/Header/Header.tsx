@@ -9,7 +9,7 @@ const Header = ({
 }: {
   type?: "title" | "greeting";
   title: string;
-  subtext: string;
+  subtext?: string;
   user?: string;
 }) => {
   return (

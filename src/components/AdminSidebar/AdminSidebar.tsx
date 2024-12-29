@@ -1,8 +1,6 @@
 "use client";
-
 import { usePathname } from "next/navigation";
 import * as React from "react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -19,9 +17,9 @@ import {
 import { NavUser } from "./nav-user";
 import { GalleryVerticalEnd } from "lucide-react";
 import Link from "next/link";
-import { ChartPie, CreditCard, User } from "lucide-react";
+import { ChartPie, CreditCard, Users } from "lucide-react";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+const AdminSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   const pathname = usePathname();
 
   const data = {
@@ -32,18 +30,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         items: [
           {
             title: "Dashboard",
-            url: "/dashboard",
+            url: "/admin/dashboard",
             icon: <ChartPie size={18} />,
           },
           {
-            title: "Profile",
-            url: "/profile",
-            icon: <User size={18} />,
+            title: "Loan",
+            url: "/admin/loans",
+            icon: <CreditCard size={18} />,
           },
           {
-            title: "Loan",
-            url: "/loan",
-            icon: <CreditCard size={18} />,
+            title: "Customers",
+            url: "/admin/customers",
+            icon: <Users size={18} />,
           },
         ],
       },
@@ -98,4 +96,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarRail />
     </Sidebar>
   );
-}
+};
+export default AdminSidebar;
